@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "repository": "Bitspark/atlas",
+    "commit": "2672b569f9e597d915a7df0f803b798d2f67ecea"
+  },
+  "members": [
+    "archon",
+    "bitagent-runtime",
+    "corpus",
+    "deixis",
+    "horos",
+    "kosmos",
+    "logos",
+    "logos-bench",
+    "logos-db",
+    "ontos",
+    "pcb-agent",
+    "pharos",
+    "prism",
+    "stele",
+    "thesmos"
+  ],
+  "catalog": {
+    "archon": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/Bitspark/archon/core/go"
+      },
+      "rs": {
+        "crate": "bitspark-archon-core",
+        "git": "https://github.com/Bitspark/archon"
+      },
+      "ts": {
+        "package": "@bitspark/archon"
+      }
+    },
+    "archon-cli": {
+      "typeIdentityCritical": false,
+      "go": {
+        "module": "github.com/Bitspark/archon/cli/go"
+      },
+      "rs": {
+        "crate": "bitspark-archon-cli",
+        "git": "https://github.com/Bitspark/archon"
+      },
+      "ts": {
+        "package": "@bitspark/archon-cli"
+      }
+    },
+    "archon-sdk": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/Bitspark/archon/sdk/go"
+      },
+      "rs": {
+        "crate": "bitspark-archon-sdk",
+        "git": "https://github.com/Bitspark/archon"
+      },
+      "ts": {
+        "package": "@bitspark/archon-sdk"
+      }
+    },
+    "archon-server": {
+      "typeIdentityCritical": false,
+      "go": {
+        "module": "github.com/Bitspark/archon/server/go"
+      },
+      "rs": {
+        "crate": "bitspark-archon-server",
+        "git": "https://github.com/Bitspark/archon"
+      },
+      "ts": {
+        "package": "@bitspark/archon-server"
+      }
+    },
+    "deixis": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/bitspark/deixis"
+      },
+      "rs": {
+        "crate": "deixis-core",
+        "git": "https://github.com/Bitspark/deixis"
+      },
+      "ts": {
+        "package": "@bitspark/deixis-core"
+      }
+    },
+    "deixis-pos": {
+      "typeIdentityCritical": false,
+      "go": {
+        "module": "github.com/bitspark/deixis"
+      },
+      "rs": {
+        "crate": "deixis-pos",
+        "git": "https://github.com/Bitspark/deixis"
+      },
+      "ts": {
+        "package": "@bitspark/deixis-pos"
+      }
+    },
+    "horos": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/Bitspark/horos/core/go"
+      },
+      "rs": {
+        "crate": "horos",
+        "git": "https://github.com/Bitspark/horos"
+      },
+      "ts": {
+        "package": "@bitspark/horos"
+      }
+    },
+    "logos-contract": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/Bitspark/logos/contract/go"
+      },
+      "rs": {
+        "crate": "logos-contract",
+        "git": "https://github.com/Bitspark/logos"
+      },
+      "ts": {
+        "package": "@bitspark/logos-contract"
+      }
+    },
+    "logos-kernel": {
+      "typeIdentityCritical": false,
+      "go": {
+        "module": "github.com/Bitspark/logos/kernel/go"
+      },
+      "rs": {
+        "crate": "logos-kernel",
+        "git": "https://github.com/Bitspark/logos"
+      },
+      "ts": {
+        "package": "@bitspark/logos-kernel"
+      }
+    },
+    "logos-providers": {
+      "typeIdentityCritical": false,
+      "rs": {
+        "crate": "logos-providers",
+        "git": "https://github.com/Bitspark/logos"
+      }
+    },
+    "logos-sldnf": {
+      "typeIdentityCritical": false,
+      "rs": {
+        "crate": "logos-sldnf",
+        "git": "https://github.com/Bitspark/logos"
+      }
+    },
+    "ontos": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/bitspark/ontos"
+      },
+      "rs": {
+        "crate": "ontos-core",
+        "git": "https://github.com/Bitspark/ontos"
+      },
+      "ts": {
+        "package": "@bitspark/ontos-core"
+      }
+    },
+    "ontos-codec": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/bitspark/ontos"
+      },
+      "rs": {
+        "crate": "ontos-codec",
+        "git": "https://github.com/Bitspark/ontos"
+      },
+      "ts": {
+        "package": "@bitspark/ontos-codec"
+      }
+    },
+    "ontos-data": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/bitspark/ontos"
+      },
+      "rs": {
+        "crate": "ontos-data",
+        "git": "https://github.com/Bitspark/ontos"
+      },
+      "ts": {
+        "package": "@bitspark/ontos-data"
+      }
+    },
+    "ontos-data-json": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/bitspark/ontos"
+      },
+      "rs": {
+        "crate": "ontos-data-json",
+        "git": "https://github.com/Bitspark/ontos"
+      },
+      "ts": {
+        "package": "@bitspark/ontos-data-json"
+      }
+    },
+    "stele": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/Bitspark/stele"
+      },
+      "rs": {
+        "crate": "stele",
+        "git": "https://github.com/Bitspark/stele"
+      },
+      "ts": {
+        "package": "@bitspark/stele"
+      }
+    },
+    "thesmos": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/Bitspark/thesmos/core/go"
+      },
+      "rs": {
+        "crate": "thesmos",
+        "git": "https://github.com/Bitspark/thesmos"
+      },
+      "ts": {
+        "package": "@bitspark/thesmos"
+      }
+    }
+  }
+}
