@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "source": {
     "repository": "Bitspark/atlas",
-    "commit": "2672b569f9e597d915a7df0f803b798d2f67ecea"
+    "commit": "d6e87801aad5429c19bae36d6e085f7781a78abf"
   },
   "members": [
     "archon",
