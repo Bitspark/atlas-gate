@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "source": {
     "repository": "Bitspark/atlas",
-    "commit": "d6e87801aad5429c19bae36d6e085f7781a78abf"
+    "commit": "a6b40912588a1ac763caea02c09255dd59589027"
   },
   "members": [
     "archon",
@@ -80,11 +80,8 @@
         "module": "github.com/bitspark/deixis"
       },
       "rs": {
-        "crate": "deixis-core",
+        "crate": "bitspark-deixis-core",
         "git": "https://github.com/Bitspark/deixis"
-      },
-      "ts": {
-        "package": "@bitspark/deixis-core"
       }
     },
     "deixis-pos": {
@@ -93,11 +90,8 @@
         "module": "github.com/bitspark/deixis"
       },
       "rs": {
-        "crate": "deixis-pos",
+        "crate": "bitspark-deixis-pos",
         "git": "https://github.com/Bitspark/deixis"
-      },
-      "ts": {
-        "package": "@bitspark/deixis-pos"
       }
     },
     "horos": {
