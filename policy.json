@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "source": {
     "repository": "Bitspark/atlas",
-    "commit": "a6b40912588a1ac763caea02c09255dd59589027"
+    "commit": "bcd6326007edf7a054b7bb4edc7b32292b6a64ae"
   },
   "members": [
     "archon",
@@ -82,6 +82,9 @@
       "rs": {
         "crate": "bitspark-deixis-core",
         "git": "https://github.com/Bitspark/deixis"
+      },
+      "ts": {
+        "package": "@bitspark/deixis-core"
       }
     },
     "deixis-pos": {
@@ -92,6 +95,9 @@
       "rs": {
         "crate": "bitspark-deixis-pos",
         "git": "https://github.com/Bitspark/deixis"
+      },
+      "ts": {
+        "package": "@bitspark/deixis-pos"
       }
     },
     "horos": {
@@ -153,7 +159,7 @@
         "module": "github.com/bitspark/ontos"
       },
       "rs": {
-        "crate": "ontos-core",
+        "crate": "bitspark-ontos-core",
         "git": "https://github.com/Bitspark/ontos"
       },
       "ts": {
@@ -166,7 +172,7 @@
         "module": "github.com/bitspark/ontos"
       },
       "rs": {
-        "crate": "ontos-codec",
+        "crate": "bitspark-ontos-codec",
         "git": "https://github.com/Bitspark/ontos"
       },
       "ts": {
@@ -179,7 +185,7 @@
         "module": "github.com/bitspark/ontos"
       },
       "rs": {
-        "crate": "ontos-data",
+        "crate": "bitspark-ontos-data",
         "git": "https://github.com/Bitspark/ontos"
       },
       "ts": {
@@ -192,11 +198,24 @@
         "module": "github.com/bitspark/ontos"
       },
       "rs": {
-        "crate": "ontos-data-json",
+        "crate": "bitspark-ontos-data-json",
         "git": "https://github.com/Bitspark/ontos"
       },
       "ts": {
         "package": "@bitspark/ontos-data-json"
+      }
+    },
+    "ontos-deixis-projection": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/bitspark/ontos/projection/deixis/go"
+      },
+      "rs": {
+        "crate": "bitspark-ontos-deixis-projection",
+        "git": "https://github.com/Bitspark/ontos"
+      },
+      "ts": {
+        "package": "@bitspark/ontos-deixis-projection"
       }
     },
     "stele": {
