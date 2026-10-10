@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "source": {
     "repository": "Bitspark/atlas",
-    "commit": "bcd6326007edf7a054b7bb4edc7b32292b6a64ae"
+    "commit": "026c2d99aacd2bf2d7a49211a14bb52b5a155cba"
   },
   "members": [
     "archon",
@@ -124,6 +124,45 @@
       },
       "ts": {
         "package": "@bitspark/logos-contract"
+      }
+    },
+    "logos-db-read": {
+      "typeIdentityCritical": false,
+      "go": {
+        "module": "github.com/Bitspark/logos-db/read/go"
+      },
+      "rs": {
+        "crate": "logos-db-read",
+        "git": "https://github.com/Bitspark/logos-db"
+      },
+      "ts": {
+        "package": "@bitspark/logos-db-read"
+      }
+    },
+    "logos-db-seam": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/Bitspark/logos-db/seam/go"
+      },
+      "rs": {
+        "crate": "logos-db-seam",
+        "git": "https://github.com/Bitspark/logos-db"
+      },
+      "ts": {
+        "package": "@bitspark/logos-db-seam"
+      }
+    },
+    "logos-db-store": {
+      "typeIdentityCritical": false,
+      "go": {
+        "module": "github.com/Bitspark/logos-db/store/go"
+      },
+      "rs": {
+        "crate": "logos-db-store",
+        "git": "https://github.com/Bitspark/logos-db"
+      },
+      "ts": {
+        "package": "@bitspark/logos-db-store"
       }
     },
     "logos-kernel": {
