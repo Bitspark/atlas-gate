@@ -2,7 +2,7 @@
   "generatedBy": "atlas gate export",
   "source": {
     "repository": "Bitspark/atlas",
-    "commit": "bcd6326007edf7a054b7bb4edc7b32292b6a64ae"
+    "commit": "026c2d99aacd2bf2d7a49211a14bb52b5a155cba"
   },
   "sha256": {
     ".gitattributes": "3840422d62569583f2ab06bf88b03c494bec6ac937f06232b67969826e8c543b",
@@ -10,8 +10,8 @@
     ".github/workflows/test.yml": "bec9886d93e2a8237c66227b8e8f33b28da493d49af2357c1fa830ef6e047d4c",
     "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
     "README.md": "43b334a6d08471f25d3b4b7e2a11780e6d90377a0bc2a5485a5f8f624ebb4f14",
-    "gate.mjs": "108aaa82cdecb8846e458af5cfe0845418fc3674bf2583f20431d8292ecae3c6",
-    "policy.json": "77d70905bc9f4cc9ea5b3264214f34f6e038d4c16ab32ecc9c1ae271d5bfb047",
+    "gate.mjs": "af3ccaf8efc594ae8454464d9ec2ec9e0e130d08960d08c3d8d5b0c56a987594",
+    "policy.json": "fb4410a9671feb815a55c4f38c1f56556e95e6796a600569296ab39bc841c14c",
     "test.mjs": "dad348c5ee6d56a36f666fc9f53f60fe86bd969a5d6430f236282ea2006bfd24"
   }
 }
