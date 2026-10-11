@@ -20,7 +20,7 @@ own.
 | File | What it is |
 |---|---|
 | `gate.mjs` | Gate A. Zero-dependency Node.js; reads only the repository under test and `policy.json`. It never runs the repository's code, never reaches the network, and needs no token. |
-| `policy.json` | The classification Gate A reads: for each catalog component, whether it is type-identity-critical and its Go module, Rust crate and npm package names; and the member names used to attribute dependencies. Nothing else. |
+| `policy.json` | The classification Gate A reads: for each catalog component, whether it is type-identity-critical and its Go module, Rust crate and npm package names; the member names used to attribute dependencies; and each member's repository identity (its GitHub repository id and slug, and a public member's private development twin), which the gate binds the running repository to, so a change cannot rename itself in `atlas.json` to hide a sibling's pins. Nothing else. |
 | `.github/workflows/gate.yml` | The required check, `substrate`, run on GitHub-hosted runners. |
 | `test.mjs` | This distribution's own tests. |
 | `PROVENANCE.json` | The commit of the governance repository this tree was generated from, and the SHA-256 of every file. |

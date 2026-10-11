@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "source": {
     "repository": "Bitspark/atlas",
-    "commit": "026c2d99aacd2bf2d7a49211a14bb52b5a155cba"
+    "commit": "dd2aecd809ebe2170ba647c1d2db2c27a002f2f4"
   },
   "members": [
     "archon",
@@ -21,6 +21,97 @@
     "stele",
     "thesmos"
   ],
+  "identities": {
+    "members": {
+      "ontos": {
+        "repositoryId": 1405116968,
+        "repo": "Bitspark/ontos",
+        "internal": {
+          "repositoryId": 1255092214,
+          "repo": "Bitspark/ontos-internal"
+        }
+      },
+      "logos": {
+        "repositoryId": 1255042787,
+        "repo": "Bitspark/logos"
+      },
+      "stele": {
+        "repositoryId": 1256388911,
+        "repo": "Bitspark/stele"
+      },
+      "thesmos": {
+        "repositoryId": 1256148777,
+        "repo": "Bitspark/thesmos"
+      },
+      "horos": {
+        "repositoryId": 1261489082,
+        "repo": "Bitspark/horos"
+      },
+      "design": {
+        "repositoryId": 1255160789,
+        "repo": "Bitspark/design"
+      },
+      "atlas": {
+        "repositoryId": 1256602098,
+        "repo": "Bitspark/atlas"
+      },
+      "deixis": {
+        "repositoryId": 1404450040,
+        "repo": "Bitspark/deixis",
+        "internal": {
+          "repositoryId": 1318870146,
+          "repo": "Bitspark/deixis-internal"
+        }
+      },
+      "logos-bench": {
+        "repositoryId": 1258268769,
+        "repo": "Bitspark/logos-bench"
+      },
+      "corpus": {
+        "repositoryId": 1268717569,
+        "repo": "Bitspark/corpus"
+      },
+      "kosmos": {
+        "repositoryId": 1298927390,
+        "repo": "Bitspark/kosmos"
+      },
+      "prism": {
+        "repositoryId": 1264874762,
+        "repo": "Bitspark/prism"
+      },
+      "logos-db": {
+        "repositoryId": 1287087788,
+        "repo": "Bitspark/logos-db"
+      },
+      "pharos": {
+        "repositoryId": 1271511380,
+        "repo": "Bitspark/pharos"
+      },
+      "bitagent-runtime": {
+        "repositoryId": 1298925772,
+        "repo": "Bitspark/bitagent-runtime"
+      },
+      "archon": {
+        "repositoryId": 1379235683,
+        "repo": "Bitspark/archon",
+        "internal": {
+          "repositoryId": 1341844015,
+          "repo": "Bitspark/archon-internal"
+        }
+      },
+      "pcb-agent": {
+        "repositoryId": 1347447976,
+        "repo": "Bitspark/pcb-agent"
+      }
+    },
+    "legacy": [
+      "arche",
+      "arche-core",
+      "arche-facts",
+      "arche-agents",
+      "arche-runner"
+    ]
+  },
   "catalog": {
     "archon": {
       "typeIdentityCritical": true,
