@@ -87,6 +87,41 @@ test("two resolved versions of a critical dependency fail", () => {
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 
+// #1147: a committed lockfile that is not the manifest's build is reported — as a warning, so it never
+// fails a member at landing.
+test("a lockfile that resolves a critical pin at another version warns, and does not fail", () => {
+  const root = repo({
+    "atlas.json": atlasJson,
+    "package.json": { name: "app", dependencies: { [row.ts.package]: "1.2.3" } },
+    "package-lock.json": { name: "app", lockfileVersion: 3, packages: { "": { name: "app" }, [`node_modules/${row.ts.package}`]: { name: row.ts.package, version: "1.0.0" } } },
+  });
+  try {
+    const r = run(root);
+    assert.equal(r.code, 0, r.text);
+    assert.match(r.text, /\[warning\] substrate\/gate-a-stale-graph/);
+    assert.match(r.text, /resolves it at 1\.0\.0/);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+// #1146: a critical crate whose rs lane was renamed carries its former names in the policy, and the
+// gate attributes a lock entry under a former name when its git source is the crate's repository.
+const [renamed, renamedRow] = Object.entries(policy.catalog).find(([, r]) => r.typeIdentityCritical && r.rs?.formerly?.length) ?? [];
+
+test("a critical crate resolved under a former name beside its current name fails", () => {
+  assert.ok(renamed, "the shipped policy carries a critical crate with former names");
+  const entry = (name, version, tag) => `[[package]]\nname = "${name}"\nversion = "${version}"\nsource = "git+${renamedRow.rs.git}?tag=${tag}#${"a".repeat(40)}"\n`;
+  const root = repo({
+    "atlas.json": atlasJson,
+    "Cargo.lock": `version = 3\n\n${entry(renamedRow.rs.formerly[0], "0.1.0", "v0.1.0")}\n${entry(renamedRow.rs.crate, "0.2.0", "v0.2.0")}`,
+  });
+  try {
+    const r = run(root);
+    assert.equal(r.code, 1, r.text);
+    assert.match(r.text, /gate-a-no-duplicate/);
+    assert.match(r.text, new RegExp(`\`${renamed}\` rs resolves to 2 distinct coordinates`));
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
 test("a repository without atlas.json fails", () => {
   const root = repo({ "package.json": { name: "app" } });
   try {
