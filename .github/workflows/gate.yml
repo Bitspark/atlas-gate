@@ -62,10 +62,15 @@ jobs:
           node-version: 22
 
       - name: Gate A
+        env:
+          # The repository this ruleset-required workflow runs in, GitHub's own facts: the gate binds
+          # them to the member it judges, so the member's atlas.json cannot choose its own identity.
+          MEMBER_REPOSITORY: ${{ github.repository }}
+          MEMBER_REPOSITORY_ID: ${{ github.repository_id }}
         run: |
           set -euo pipefail
           rc=0
-          node gate/gate.mjs member > gate-a.txt 2>&1 || rc=$?
+          node gate/gate.mjs member --repository "$MEMBER_REPOSITORY" --repository-id "$MEMBER_REPOSITORY_ID" > gate-a.txt 2>&1 || rc=$?
           cat gate-a.txt
           {
             echo "### Gate A (Bitspark/atlas-gate@${GITHUB_WORKFLOW_SHA})"
