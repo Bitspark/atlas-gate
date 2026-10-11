@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "source": {
     "repository": "Bitspark/atlas",
-    "commit": "dd2aecd809ebe2170ba647c1d2db2c27a002f2f4"
+    "commit": "6c9f1aa795144f5c9cf4c1014fe48dd430e7c298"
   },
   "members": [
     "archon",
@@ -120,7 +120,10 @@
       },
       "rs": {
         "crate": "bitspark-archon-core",
-        "git": "https://github.com/Bitspark/archon"
+        "git": "https://github.com/Bitspark/archon",
+        "formerly": [
+          "archon-core"
+        ]
       },
       "ts": {
         "package": "@bitspark/archon"
@@ -133,7 +136,10 @@
       },
       "rs": {
         "crate": "bitspark-archon-cli",
-        "git": "https://github.com/Bitspark/archon"
+        "git": "https://github.com/Bitspark/archon",
+        "formerly": [
+          "archon-cli"
+        ]
       },
       "ts": {
         "package": "@bitspark/archon-cli"
@@ -146,7 +152,10 @@
       },
       "rs": {
         "crate": "bitspark-archon-sdk",
-        "git": "https://github.com/Bitspark/archon"
+        "git": "https://github.com/Bitspark/archon",
+        "formerly": [
+          "archon-sdk"
+        ]
       },
       "ts": {
         "package": "@bitspark/archon-sdk"
@@ -159,7 +168,10 @@
       },
       "rs": {
         "crate": "bitspark-archon-server",
-        "git": "https://github.com/Bitspark/archon"
+        "git": "https://github.com/Bitspark/archon",
+        "formerly": [
+          "archon-server"
+        ]
       },
       "ts": {
         "package": "@bitspark/archon-server"
@@ -172,7 +184,10 @@
       },
       "rs": {
         "crate": "bitspark-deixis-core",
-        "git": "https://github.com/Bitspark/deixis"
+        "git": "https://github.com/Bitspark/deixis",
+        "formerly": [
+          "deixis-core"
+        ]
       },
       "ts": {
         "package": "@bitspark/deixis-core"
@@ -185,7 +200,10 @@
       },
       "rs": {
         "crate": "bitspark-deixis-pos",
-        "git": "https://github.com/Bitspark/deixis"
+        "git": "https://github.com/Bitspark/deixis",
+        "formerly": [
+          "deixis-pos"
+        ]
       },
       "ts": {
         "package": "@bitspark/deixis-pos"
@@ -290,7 +308,10 @@
       },
       "rs": {
         "crate": "bitspark-ontos-core",
-        "git": "https://github.com/Bitspark/ontos"
+        "git": "https://github.com/Bitspark/ontos",
+        "formerly": [
+          "ontos-core"
+        ]
       },
       "ts": {
         "package": "@bitspark/ontos-core"
@@ -303,7 +324,10 @@
       },
       "rs": {
         "crate": "bitspark-ontos-codec",
-        "git": "https://github.com/Bitspark/ontos"
+        "git": "https://github.com/Bitspark/ontos",
+        "formerly": [
+          "ontos-codec"
+        ]
       },
       "ts": {
         "package": "@bitspark/ontos-codec"
@@ -316,7 +340,10 @@
       },
       "rs": {
         "crate": "bitspark-ontos-data",
-        "git": "https://github.com/Bitspark/ontos"
+        "git": "https://github.com/Bitspark/ontos",
+        "formerly": [
+          "ontos-data"
+        ]
       },
       "ts": {
         "package": "@bitspark/ontos-data"
@@ -329,7 +356,10 @@
       },
       "rs": {
         "crate": "bitspark-ontos-data-json",
-        "git": "https://github.com/Bitspark/ontos"
+        "git": "https://github.com/Bitspark/ontos",
+        "formerly": [
+          "ontos-data-json"
+        ]
       },
       "ts": {
         "package": "@bitspark/ontos-data-json"
