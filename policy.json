@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "source": {
     "repository": "Bitspark/atlas",
-    "commit": "7be760082f7ee51ef74dc3fe8e525829d96e4e7f"
+    "commit": "f90ccbaa235367d7f5d513bee3ab8d9507cb4e14"
   },
   "members": [
     "archon",
@@ -402,6 +402,19 @@
       },
       "ts": {
         "package": "@bitspark/thesmos"
+      }
+    },
+    "thesmos-ledger-objects": {
+      "typeIdentityCritical": true,
+      "go": {
+        "module": "github.com/Bitspark/thesmos/ledger-objects/go"
+      },
+      "rs": {
+        "crate": "thesmos-ledger-objects",
+        "git": "https://github.com/Bitspark/thesmos"
+      },
+      "ts": {
+        "package": "@bitspark/thesmos-ledger-objects"
       }
     }
   },
