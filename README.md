@@ -21,7 +21,8 @@ own.
 |---|---|
 | `gate.mjs` | Gate A. Zero-dependency Node.js; reads only the repository under test and `policy.json`. It never runs the repository's code, never reaches the network, and needs no token. |
 | `policy.json` | The classification Gate A reads: for each catalog component, whether it is type-identity-critical and its Go module, Rust crate and npm package names; the member names used to attribute dependencies; and each member's repository identity (its GitHub repository id and slug, and a public member's private development twin), which the gate binds the running repository to, so a change cannot rename itself in `atlas.json` to hide a sibling's pins. Nothing else. |
-| `.github/workflows/gate.yml` | The required check, `substrate`, run on GitHub-hosted runners. |
+| `profile.mjs` | The public profile's validators. Zero-dependency; reads only the repository under test and `policy.json`'s `profile` block. It checks the governance pin is at the contract's specVersion, the docs manifest is current where `atlas.json` declares `docs`, and the atlas-managed regions of `.gitattributes` and `.gitignore` are present; it reports the member-owned content (security policy, issue chooser, PR template, agent docs) against its contract and never fails on it. Never writes. |
+| `.github/workflows/gate.yml` | The required workflow, two jobs on GitHub-hosted runners: `substrate` (Gate A) and `profile` (the validators above). |
 | `test.mjs` | This distribution's own tests. |
 | `PROVENANCE.json` | The commit of the governance repository this tree was generated from, and the SHA-256 of every file. |
 
@@ -34,10 +35,17 @@ workflow's own commit, so the checker that runs is the one the ruleset approved.
 cannot replace it. The workflow fails closed: if it cannot identify its own commit, or the policy is
 missing or empty, it reports an error rather than a pass that examined nothing.
 
+The `profile` job fails only on what the constellation's reconciler would itself repair by pull
+request — a missing or re-pinned governance pin, a stale docs manifest, a missing atlas-managed
+region — so a red here means a convergence pull request is due or was declined. What the member
+writes in its own voice is reported, never failed; a decision to keep a file out is recorded in the
+pin's `sanctioned` map and silences the report.
+
 To run it locally against a checkout:
 
 ```sh
 node gate.mjs path/to/member
+node profile.mjs path/to/member
 ```
 
 ## Changes

@@ -11,9 +11,11 @@ import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { runGate } from "./gate.mjs";
+import { runProfile, shipped } from "./profile.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const policy = JSON.parse(readFileSync(join(HERE, "policy.json"), "utf8"));
+const { MANAGED_BEGIN, MANAGED_END, DOCS_MANIFEST, assembleDocsManifest } = shipped();
 
 // A critical component with an npm package, to build fixtures from the shipped policy itself.
 const [component, row] = Object.entries(policy.catalog).find(([, r]) => r.typeIdentityCritical && r.ts?.package) ?? [];
@@ -87,9 +89,8 @@ test("two resolved versions of a critical dependency fail", () => {
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 
-// #1147: a committed lockfile that is not the manifest's build is reported — as a warning, so it never
-// fails a member at landing.
-test("a lockfile that resolves a critical pin at another version warns, and does not fail", () => {
+// #1147: a committed lockfile that is not the manifest's build fails the gate.
+test("a lockfile that resolves a critical pin at another version fails", () => {
   const root = repo({
     "atlas.json": atlasJson,
     "package.json": { name: "app", dependencies: { [row.ts.package]: "1.2.3" } },
@@ -97,8 +98,8 @@ test("a lockfile that resolves a critical pin at another version warns, and does
   });
   try {
     const r = run(root);
-    assert.equal(r.code, 0, r.text);
-    assert.match(r.text, /\[warning\] substrate\/gate-a-stale-graph/);
+    assert.equal(r.code, 1, r.text);
+    assert.match(r.text, /\[error\] substrate\/gate-a-stale-graph/);
     assert.match(r.text, /resolves it at 1\.0\.0/);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
@@ -140,5 +141,135 @@ test("an empty or missing policy fails instead of checking nothing", () => {
     const b = run(root, join(root, "no-such-policy.json"));
     assert.equal(b.code, 1, b.text);
     assert.match(b.text, /nothing was checked/);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+// ── the public profile's validators (profile.mjs) ─────────────────────────────────────────────────
+
+function runP(root, policyPath) {
+  const out = [];
+  const ow = process.stdout.write.bind(process.stdout);
+  const ew = process.stderr.write.bind(process.stderr);
+  process.stdout.write = (s) => (out.push(s), true);
+  process.stderr.write = (s) => (out.push(s), true);
+  let code;
+  try { code = runProfile(root, policyPath); } finally {
+    process.stdout.write = ow;
+    process.stderr.write = ew;
+  }
+  return { code, text: out.join("") };
+}
+
+const region = (body) => `${MANAGED_BEGIN}\n${body.replace(/\r\n/g, "\n").replace(/\n+$/, "")}\n${MANAGED_END}\n`;
+
+/** A converged public member: the pin at the policy's specVersion, both managed regions, its own
+ *  governance content, no docs block. */
+function converged(extra = {}) {
+  const files = { "atlas.json": atlasJson, ".atlas/process.json": { _class: "generated-fact", specVersion: policy.profile.specVersion, atlasRef: "a".repeat(40) } };
+  for (const b of policy.profile.managedBlocks) files[b.path] = region(b.body) + "\n# the member's own line\n";
+  files["SECURITY.md"] = "# Security\n\nUse GitHub's private vulnerability reporting.\n";
+  files[".github/ISSUE_TEMPLATE/config.yml"] = "blank_issues_enabled: true\n";
+  files[".github/PULL_REQUEST_TEMPLATE.md"] = "## What\n";
+  for (const o of policy.profile.owned) if (o.id === "agent-docs") files[o.path] = `# ${o.path}\n`;
+  return repo({ ...files, ...extra });
+}
+
+test("the shipped policy carries the profile block", () => {
+  assert.ok(Number.isInteger(policy.profile?.specVersion));
+  assert.ok(policy.profile.managedBlocks.length >= 2);
+});
+
+test("profile: a converged member passes with no warnings", () => {
+  const root = converged();
+  try {
+    const r = runP(root);
+    assert.equal(r.code, 0, r.text);
+    assert.match(r.text, /public profile: holds — 0 error\(s\), 0 warning\(s\)/);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test("profile: a pin at another specVersion fails; a missing pin fails", () => {
+  const stale = converged({ ".atlas/process.json": { _class: "generated-fact", specVersion: policy.profile.specVersion + 1, atlasRef: "a".repeat(40) } });
+  try {
+    const r = runP(stale);
+    assert.equal(r.code, 1, r.text);
+    assert.match(r.text, /public-profile:pin: \.atlas\/process\.json is pinned at specVersion/);
+  } finally { rmSync(stale, { recursive: true, force: true }); }
+  const missing = converged();
+  rmSync(join(missing, ".atlas"), { recursive: true, force: true });
+  try {
+    const r = runP(missing);
+    assert.equal(r.code, 1, r.text);
+    assert.match(r.text, /public-profile:pin: \.atlas\/process\.json is missing/);
+  } finally { rmSync(missing, { recursive: true, force: true }); }
+});
+
+test("profile: a missing or edited atlas-managed region fails; the member's own lines are not read", () => {
+  const [first] = policy.profile.managedBlocks;
+  const gone = converged({ [first.path]: "# only the member's lines\n" });
+  try {
+    const r = runP(gone);
+    assert.equal(r.code, 1, r.text);
+    assert.match(r.text, new RegExp(`public-profile:${first.id}: .* has no atlas-managed region`));
+  } finally { rmSync(gone, { recursive: true, force: true }); }
+  const edited = converged({ [first.path]: region(first.body + "\n# an edit inside the region\n") + "# member\n" });
+  try {
+    const r = runP(edited);
+    assert.equal(r.code, 1, r.text);
+    assert.match(r.text, /has a changed atlas-managed region/);
+  } finally { rmSync(edited, { recursive: true, force: true }); }
+  const crlf = converged({ [first.path]: (region(first.body) + "# member\n").replace(/\n/g, "\r\n") });
+  try {
+    assert.equal(runP(crlf).code, 0, "a CRLF checkout of a current region passes");
+  } finally { rmSync(crlf, { recursive: true, force: true }); }
+});
+
+test("profile: where atlas.json declares docs, a missing or stale manifest fails and a current one passes", () => {
+  const withDocs = { ...atlasJson, docs: { entry: "README.md" } };
+  const root = converged({ "atlas.json": withDocs, "README.md": "# app\n\nA member.\n", "docs/guide.md": "# Guide\n\n## Usage\n\nText.\n" });
+  try {
+    let r = runP(root);
+    assert.equal(r.code, 1, r.text);
+    assert.match(r.text, /public-profile:docs: docs\/\.docs-manifest\.json is missing/);
+    const { doc } = assembleDocsManifest(root, { docsDir: policy.profile.docsDir });
+    writeFileSync(join(root, DOCS_MANIFEST(policy.profile.docsDir)), JSON.stringify(doc, null, 2) + "\n");
+    r = runP(root);
+    assert.equal(r.code, 0, r.text);
+    assert.match(r.text, /docs\/\.docs-manifest\.json is current/);
+    writeFileSync(join(root, "docs/other.md"), "# Other\n");
+    r = runP(root);
+    assert.equal(r.code, 1, r.text);
+    assert.match(r.text, /is stale/);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test("profile: the member-owned content is reported, never failed, and a recorded decision silences a report", () => {
+  const root = converged();
+  rmSync(join(root, ".github", "PULL_REQUEST_TEMPLATE.md"));
+  writeFileSync(join(root, "SECURITY.md"), "# Security\n\nOpen an issue.\n");
+  try {
+    let r = runP(root);
+    assert.equal(r.code, 0, r.text);
+    assert.match(r.text, /! \[warning\] public-profile:pr-template: \.github\/PULL_REQUEST_TEMPLATE\.md is missing/);
+    assert.match(r.text, /! \[warning\] public-profile:security-policy: SECURITY\.md names no private reporting channel/);
+    assert.match(r.text, /2 warning\(s\)/);
+    writeFileSync(join(root, ".atlas", "process.json"), JSON.stringify({ _class: "generated-fact", specVersion: policy.profile.specVersion, atlasRef: "a".repeat(40), sanctioned: {
+      "public-profile:pr-template:.github/PULL_REQUEST_TEMPLATE.md": { reason: "pull requests follow the upstream template", by: "member", since: "2026-10-12" },
+    } }, null, 2) + "\n");
+    r = runP(root);
+    assert.equal(r.code, 0, r.text);
+    assert.match(r.text, /· \[info\] public-profile:pr-template: .* — sanctioned by member on 2026-10-12: pull requests follow the upstream template/);
+    assert.match(r.text, /1 warning\(s\)/);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test("profile: a policy without a profile block refuses to pass", () => {
+  const root = converged();
+  const bad = join(root, "bad-policy.json");
+  writeFileSync(bad, JSON.stringify({ ...policy, profile: undefined }));
+  try {
+    const r = runP(root, bad);
+    assert.equal(r.code, 1);
+    assert.match(r.text, /nothing was checked/);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
